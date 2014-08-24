@@ -20,7 +20,6 @@ void setup()
 {
   AudioMemory(200);
   audioShield.enable();
-  audioShield.volume(0.9);
   SPI.setMOSI(7);
   SPI.setSCK(14);
   SD.begin(10);
@@ -28,9 +27,8 @@ void setup()
   numberOfWavFile = numberOfWavFilesInDirectory(root);
   fillArrayOfWavFilesWithDir(root);
   printFileArray();
+  playFileAtIndex(2);
   audioShield.volume(0.3);
-
-
 }
 
 void loop() 
@@ -45,6 +43,22 @@ void updateVolume()
   vol = vol / 1024;
   audioShield.volume(vol);
 }
+
+void playFileAtIndex(int index)
+{    
+  Serial.print("Playing : ");
+  File f = audioFiles[index];
+  String fName = f.name();
+  char buf [fName.length()+1];
+  fName.toCharArray(buf, fName.length()+1) ;
+  Serial.println(buf);
+  wav.play(buf);
+
+}
+
+
+
+
 
 
 
